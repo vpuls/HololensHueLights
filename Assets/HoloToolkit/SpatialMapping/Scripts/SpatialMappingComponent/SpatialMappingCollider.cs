@@ -2,7 +2,7 @@
 // Licensed under the MIT License. See LICENSE in the project root for license information.
 
 using UnityEngine;
-using UnityEngine.VR.WSA;
+
 
 public class SpatialMappingCollider : SMBaseAbstract
 {
@@ -40,7 +40,7 @@ public class SpatialMappingCollider : SMBaseAbstract
     /// <param name="bakedData">The resulting data from the RequestMeshAsync call</param>
     /// <param name="outputWritten">Whether or not the output was written</param>
     /// <param name="elapsedBakeTimeSeconds">How long the baking took in seconds</param>
-    protected override void SurfaceObserver_OnDataReady(SurfaceData bakedData, bool outputWritten, float elapsedBakeTimeSeconds)
+    protected override void SurfaceObserver_OnDataReady(UnityEngine.XR.WSA.SurfaceData bakedData, bool outputWritten, float elapsedBakeTimeSeconds)
     {
         if (bakedData.outputMesh != null)
         {

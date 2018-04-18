@@ -2,7 +2,7 @@
 // Licensed under the MIT License. See LICENSE in the project root for license information.
 
 using UnityEngine;
-using UnityEngine.VR.WSA;
+
 
 namespace HoloToolkit.Unity
 {
@@ -126,7 +126,7 @@ namespace HoloToolkit.Unity
 
                 Vector3 newFocusPointPosition = gazeOrigin + (gazeDirection * lastHitDistance);
 
-                HolographicSettings.SetFocusPointForFrame(newFocusPointPosition, -gazeDirection);
+                UnityEngine.XR.WSA.HolographicSettings.SetFocusPointForFrame(newFocusPointPosition, -gazeDirection);
             }
         }
     }

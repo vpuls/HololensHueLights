@@ -3,7 +3,7 @@
 
 using UnityEngine;
 using System.Collections;
-using UnityEngine.VR.WSA;
+
 using System.Collections.Generic;
 
 public abstract class SMBaseAbstract : MonoBehaviour
@@ -84,13 +84,13 @@ public abstract class SMBaseAbstract : MonoBehaviour
     /// <summary>
     /// The SurfaceObserver we will use to get data about the physical surroundings
     /// </summary>
-    protected SurfaceObserver surfaceObserver;
+    protected UnityEngine.XR.WSA.SurfaceObserver surfaceObserver;
     /// <summary>
     /// The collection of all of the active meshes indexed by SurfaceId.
     /// 
     /// The mesh itself can be accessed by getting the MeshFilter off of the GameObject
     /// </summary>
-    public Dictionary<SurfaceId, GameObject> SpatialMeshObjects = new Dictionary<SurfaceId, GameObject>();
+    public Dictionary<UnityEngine.XR.WSA.SurfaceId, GameObject> SpatialMeshObjects = new Dictionary<UnityEngine.XR.WSA.SurfaceId, GameObject>();
 
     /// <summary>
     /// Set this value to change how quickly objects will be actually removed from the scene
@@ -117,7 +117,7 @@ public abstract class SMBaseAbstract : MonoBehaviour
         /// <summary>
         /// The identifier of this surface
         /// </summary>
-        public SurfaceId id;
+        public UnityEngine.XR.WSA.SurfaceId id;
         /// <summary>
         /// Whether the MeshCollider was present and enabled when this object was marked for removal.
         /// 
@@ -168,7 +168,7 @@ public abstract class SMBaseAbstract : MonoBehaviour
         /// <param name="id">The SurfaceId identifying this surface</param>
         /// <param name="wasMeshColliderEnabled">Whether or not a MeshCollider was present and enabled</param>
         /// <param name="wasMeshRendererEnabled">Whether or not a MeshRenderer was present and enabled</param>
-        public RemovedSurfaceHolder(int updatesBeforeRemoval, GameObject gameObject, SurfaceId id, bool wasMeshColliderEnabled, bool wasMeshRendererEnabled)
+        public RemovedSurfaceHolder(int updatesBeforeRemoval, GameObject gameObject, UnityEngine.XR.WSA.SurfaceId id, bool wasMeshColliderEnabled, bool wasMeshRendererEnabled)
         {
             this.updatesBeforeRemoval = updatesBeforeRemoval;
             this.gameObject = gameObject;
@@ -185,7 +185,7 @@ public abstract class SMBaseAbstract : MonoBehaviour
     /// actually not needing to exist. To disable this behavior, set [SurfaceObserver].NumUpdatesBeforeRemoval = 0 or manually clear this dictionary
     /// Surfaces in this collection will move back to the SpatialMeshObjects if they return to the scene before the number of update intervals has elapsed
     /// </summary>
-    public Dictionary<SurfaceId, RemovedSurfaceHolder> RemovedMeshObjects = new Dictionary<SurfaceId, RemovedSurfaceHolder>();
+    public Dictionary<UnityEngine.XR.WSA.SurfaceId, RemovedSurfaceHolder> RemovedMeshObjects = new Dictionary<UnityEngine.XR.WSA.SurfaceId, RemovedSurfaceHolder>();
 
     /// <summary>
     /// Whether or not the bake meshes (generate a collider) when processing
@@ -204,7 +204,7 @@ public abstract class SMBaseAbstract : MonoBehaviour
     /// </summary>
     protected virtual void Start()
     {
-        surfaceObserver = new SurfaceObserver();
+        surfaceObserver = new UnityEngine.XR.WSA.SurfaceObserver();
         UpdateSurfaceObserverPosition();
         StartCoroutine(UpdateLoop());
         bounds = new Bounds(transform.position, Extents);
@@ -310,7 +310,7 @@ public abstract class SMBaseAbstract : MonoBehaviour
     /// <param name="bakedData">The processed SurfaceData</param>
     /// <param name="outputWritten">Whether or not output was written</param>
     /// <param name="elapsedBakeTimeSeconds">The time in seconds it took to request and populate the mesh</param>
-    protected virtual void SurfaceObserver_OnDataReady(SurfaceData bakedData, bool outputWritten, float elapsedBakeTimeSeconds)
+    protected virtual void SurfaceObserver_OnDataReady(UnityEngine.XR.WSA.SurfaceData bakedData, bool outputWritten, float elapsedBakeTimeSeconds)
     {
         // Passthrough
     }
@@ -355,15 +355,15 @@ public abstract class SMBaseAbstract : MonoBehaviour
     /// <param name="changeType">What type of change this is (add, update, or remove)</param>
     /// <param name="bounds">The bounds of the mesh</param>
     /// <param name="updateTime">The time the update occurred</param>
-    protected virtual void SurfaceObserver_OnSurfaceChanged(SurfaceId surfaceId, SurfaceChange changeType, Bounds bounds, System.DateTime updateTime)
+    protected virtual void SurfaceObserver_OnSurfaceChanged(UnityEngine.XR.WSA.SurfaceId surfaceId, UnityEngine.XR.WSA.SurfaceChange changeType, Bounds bounds, System.DateTime updateTime)
     {
         switch (changeType)
         {
-            case SurfaceChange.Added:
-            case SurfaceChange.Updated:
+            case UnityEngine.XR.WSA.SurfaceChange.Added:
+            case UnityEngine.XR.WSA.SurfaceChange.Updated:
                 HandleAdd(surfaceId, updateTime, bakeMeshes);
                 break;
-            case SurfaceChange.Removed:
+            case UnityEngine.XR.WSA.SurfaceChange.Removed:
                 HandleDelete(surfaceId);
                 break;
             default:
@@ -378,7 +378,7 @@ public abstract class SMBaseAbstract : MonoBehaviour
     /// Else we will create a new RemoveSurfaceHolder and add that to the RemovedMeshObjects list to cache the mesh until we believe it should actually be removed
     /// </summary>
     /// <param name="surfaceId"></param>
-    protected virtual void HandleDelete(SurfaceId surfaceId)
+    protected virtual void HandleDelete(UnityEngine.XR.WSA.SurfaceId surfaceId)
     {
         GameObject obj = SpatialMeshObjects[surfaceId];
         SpatialMeshObjects.Remove(surfaceId);
@@ -440,7 +440,7 @@ public abstract class SMBaseAbstract : MonoBehaviour
     /// <param name="surfaceId">The id of the surface that was added or updated</param>
     /// <param name="updateTime">The time at which the surface was modified</param>
     /// <param name="bake">Whether or not this component should request to back a collider for the surface</param>
-    protected virtual void HandleAdd(SurfaceId surfaceId, System.DateTime updateTime, bool bake)
+    protected virtual void HandleAdd(UnityEngine.XR.WSA.SurfaceId surfaceId, System.DateTime updateTime, bool bake)
     {
         if (RemovedMeshObjects.ContainsKey(surfaceId))
         {
@@ -464,13 +464,13 @@ public abstract class SMBaseAbstract : MonoBehaviour
             SpatialMeshObjects[surfaceId].transform.parent = this.transform;
         }
         GameObject target = SpatialMeshObjects[surfaceId];
-        SurfaceData sd = new SurfaceData(
+        UnityEngine.XR.WSA.SurfaceData sd = new UnityEngine.XR.WSA.SurfaceData(
                 //the surface id returned from the system
                 surfaceId,
                 //the mesh filter that is populated with the spatial mapping data for this mesh
                 (target.GetComponent<MeshFilter>() == null) ? target.AddComponent<MeshFilter>() : target.GetComponent<MeshFilter>(),
                 //the world anchor used to position the spatial mapping mesh in the world
-                (target.GetComponent<WorldAnchor>() == null) ? target.AddComponent<WorldAnchor>() : target.GetComponent<WorldAnchor>(),
+                (target.GetComponent<UnityEngine.XR.WSA.WorldAnchor>() == null) ? target.AddComponent<UnityEngine.XR.WSA.WorldAnchor>() : target.GetComponent<UnityEngine.XR.WSA.WorldAnchor>(),
                 //the mesh collider that is populated with collider data for this mesh, if true is passed to bakeMeshes below
                 (target.GetComponent<MeshCollider>() == null) ? target.AddComponent<MeshCollider>() : target.GetComponent<MeshCollider>(),
                 //triangles per cubic meter requested for this mesh

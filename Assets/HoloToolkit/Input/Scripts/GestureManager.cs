@@ -2,7 +2,7 @@
 // Licensed under the MIT License. See LICENSE in the project root for license information.
 
 using UnityEngine;
-using UnityEngine.VR.WSA.Input;
+
 
 namespace HoloToolkit.Unity
 {
@@ -32,14 +32,14 @@ namespace HoloToolkit.Unity
             get { return focusedObject; }
         }
 
-        private GestureRecognizer gestureRecognizer;
+        private UnityEngine.XR.WSA.Input.GestureRecognizer gestureRecognizer;
         private GameObject focusedObject;
 
         void Start()
         {
             // Create a new GestureRecognizer. Sign up for tapped events.
-            gestureRecognizer = new GestureRecognizer();
-            gestureRecognizer.SetRecognizableGestures(GestureSettings.Tap);
+            gestureRecognizer = new UnityEngine.XR.WSA.Input.GestureRecognizer();
+            gestureRecognizer.SetRecognizableGestures(UnityEngine.XR.WSA.Input.GestureSettings.Tap);
 
             gestureRecognizer.TappedEvent += GestureRecognizer_TappedEvent;
 
@@ -47,7 +47,7 @@ namespace HoloToolkit.Unity
             gestureRecognizer.StartCapturingGestures();
         }
 
-        private void GestureRecognizer_TappedEvent(InteractionSourceKind source, int tapCount, Ray headRay)
+        private void GestureRecognizer_TappedEvent(UnityEngine.XR.WSA.Input.InteractionSourceKind source, int tapCount, Ray headRay)
         {
             if (focusedObject != null)
             {

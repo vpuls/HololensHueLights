@@ -2,7 +2,7 @@
 // Licensed under the MIT License. See LICENSE in the project root for license information.
 
 using System.Collections.Generic;
-using UnityEngine.VR.WSA.Input;
+
 
 namespace HoloToolkit.Unity
 {
@@ -24,14 +24,14 @@ namespace HoloToolkit.Unity
 
         void Awake()
         {
-            InteractionManager.SourceDetected += InteractionManager_SourceDetected;
-            InteractionManager.SourceLost += InteractionManager_SourceLost;
+            UnityEngine.XR.WSA.Input.InteractionManager.InteractionSourceDetectedLegacy += InteractionManager_SourceDetected;
+            UnityEngine.XR.WSA.Input.InteractionManager.InteractionSourceLostLegacy += InteractionManager_SourceLost;
         }
 
-        private void InteractionManager_SourceDetected(InteractionSourceState state)
+        private void InteractionManager_SourceDetected(UnityEngine.XR.WSA.Input.InteractionSourceState state)
         {
             // Check to see that the source is a hand.
-            if (state.source.kind != InteractionSourceKind.Hand)
+            if (state.source.kind != UnityEngine.XR.WSA.Input.InteractionSourceKind.Hand)
             {
                 return;
             }
@@ -39,10 +39,10 @@ namespace HoloToolkit.Unity
             trackedHands.Add(state.source.id);
         }
 
-        private void InteractionManager_SourceLost(InteractionSourceState state)
+        private void InteractionManager_SourceLost(UnityEngine.XR.WSA.Input.InteractionSourceState state)
         {
             // Check to see that the source is a hand.
-            if (state.source.kind != InteractionSourceKind.Hand)
+            if (state.source.kind != UnityEngine.XR.WSA.Input.InteractionSourceKind.Hand)
             {
                 return;
             }
@@ -55,8 +55,8 @@ namespace HoloToolkit.Unity
 
         void OnDestroy()
         {
-            InteractionManager.SourceDetected -= InteractionManager_SourceDetected;
-            InteractionManager.SourceLost -= InteractionManager_SourceLost;
+            UnityEngine.XR.WSA.Input.InteractionManager.InteractionSourceDetectedLegacy -= InteractionManager_SourceDetected;
+            UnityEngine.XR.WSA.Input.InteractionManager.InteractionSourceLostLegacy -= InteractionManager_SourceLost;
         }
     }
 }

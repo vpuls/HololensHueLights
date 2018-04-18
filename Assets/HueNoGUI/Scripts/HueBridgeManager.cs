@@ -37,7 +37,7 @@ public class HueBridgeManager : MonoBehaviour {
         Debug.Log("http" + bridgeip + portNumber + "/api/" + username + "/lights");
 
         //System.IO.Stream stream = response.GetResponseStream();
-       // System.IO.StreamReader streamReader = new System.IO.StreamReader(stream, System.Text.Encoding.UTF8);
+        // System.IO.StreamReader streamReader = new System.IO.StreamReader(stream, System.Text.Encoding.UTF8);
 
         var lights = (Dictionary<string, object>)Json.Deserialize(lights_json.downloadHandler.text);
         foreach (string key in lights.Keys)
