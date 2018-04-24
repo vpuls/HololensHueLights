@@ -1,6 +1,7 @@
 ﻿using System.Collections.Generic;
 using UnityEngine;
 using HoloToolkit.Unity;
+using HoloToolkit.Unity.InputModule;
 
 
 public class SimpleMoveLampAction : MonoBehaviour {
@@ -94,7 +95,7 @@ public class SimpleMoveLampAction : MonoBehaviour {
 
         // Tell the gesture manager that it is to assume
         // all input is to be given to this object.
-        GestureManager.Instance.OverrideFocusedObject = gameObject;
+        InputManager.Instance.OverrideFocusedObject = gameObject;
 
         // Enter placement mode.
         IsPlacing = true;
@@ -154,7 +155,7 @@ public class SimpleMoveLampAction : MonoBehaviour {
 
         // Tell the gesture manager that it is to resume
         // its normal behavior.
-        GestureManager.Instance.OverrideFocusedObject = null;
+        InputManager.Instance.OverrideFocusedObject = null;
         boxCollider.enabled = true;
 
         // Exit placement mode.

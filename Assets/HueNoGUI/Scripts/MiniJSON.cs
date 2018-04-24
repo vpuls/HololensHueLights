@@ -302,10 +302,12 @@ namespace MiniJSON {
             }
 
             void EatWhitespace() {
-                while (Char.IsWhiteSpace(PeekChar)) {
+                while (Char.IsWhiteSpace(PeekChar))
+                {
                     json.Read();
 
-                    if (json.Peek() == -1) {
+                    if (json.Peek() == -1)
+                    {
                         break;
                     }
                 }
@@ -313,7 +315,15 @@ namespace MiniJSON {
 
             char PeekChar {
                 get {
-                    return Convert.ToChar(json.Peek());
+                    if (json.Peek() == -1)
+                    {
+                        return ' ';
+                    }
+                    else
+                    {
+                        return Convert.ToChar(json.Peek());
+                    }
+                    
                 }
             }
 

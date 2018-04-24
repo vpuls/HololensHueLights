@@ -3,6 +3,7 @@ using System.Linq;
 using UnityEngine;
 using UnityEngine.Windows.Speech;
 using HoloToolkit.Unity;
+using HoloToolkit.Unity.InputModule;
 
 public class SimpleSpeechManager : MonoBehaviour
 {
@@ -15,7 +16,8 @@ public class SimpleSpeechManager : MonoBehaviour
 
         keywords.Add("Next Plate", () =>
         {
-            var focusObject = GestureManager.Instance.FocusedObject;
+            var focusObject = FocusManager.Instance.GetFocusedObject(GazeManager.Instance);
+
             if (focusObject != null)
             {
                 // Call the OnDrop method on just the focused object.
@@ -25,7 +27,7 @@ public class SimpleSpeechManager : MonoBehaviour
 
         keywords.Add("Previous Plate", () =>
         {
-            var focusObject = GestureManager.Instance.FocusedObject;
+            var focusObject = FocusManager.Instance.GetFocusedObject(GazeManager.Instance);
             if (focusObject != null)
             {
                 // Call the OnDrop method on just the focused object.
@@ -34,7 +36,7 @@ public class SimpleSpeechManager : MonoBehaviour
         });
         keywords.Add("Clear Table", () =>
         {
-            var focusObject = GestureManager.Instance.FocusedObject;
+            var focusObject = FocusManager.Instance.GetFocusedObject(GazeManager.Instance);
             if (focusObject != null)
             {
                 // Call the OnDrop method on just the focused object.
@@ -43,7 +45,7 @@ public class SimpleSpeechManager : MonoBehaviour
         });
         keywords.Add("Customize Plate", () =>
         {
-            var focusObject = GestureManager.Instance.FocusedObject;
+            var focusObject = FocusManager.Instance.GetFocusedObject(GazeManager.Instance);
             if (focusObject != null)
             {
                 // Call the OnDrop method on just the focused object.
@@ -52,7 +54,7 @@ public class SimpleSpeechManager : MonoBehaviour
         });
         keywords.Add("Reset Menu", () =>
         {
-            var focusObject = GestureManager.Instance.FocusedObject;
+            var focusObject = FocusManager.Instance.GetFocusedObject(GazeManager.Instance);
             if (focusObject != null)
             {
                 // Call the OnDrop method on just the focused object.
@@ -63,7 +65,7 @@ public class SimpleSpeechManager : MonoBehaviour
 
         keywords.Add("Lights control", () =>
         {
-            var focusObject = GestureManager.Instance.FocusedObject;
+            var focusObject = FocusManager.Instance.GetFocusedObject(GazeManager.Instance);
             if (focusObject != null)
             {
                 // Call the OnDrop method on just the focused object.

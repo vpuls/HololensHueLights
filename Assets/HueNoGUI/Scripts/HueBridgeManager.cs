@@ -1,8 +1,10 @@
-﻿using UnityEngine;
+﻿using System;
 using System.Collections;
 using System.Collections.Generic;
+using UnityEngine;
 using UnityEngine.Networking;
-
+using HoloToolkit.Sharing;
+using HoloToolkit.Sharing.Utilities;
 using MiniJSON;
 
 public class HueBridgeManager : MonoBehaviour {
@@ -14,6 +16,9 @@ public class HueBridgeManager : MonoBehaviour {
     public string username = "newdeveloper";
     // Use this for initialization
 
+
+    // 
+    public ManualIpConfiguration ipConfig;
     void Start () {
         if ((!bridgeip.Equals("127.0.0.1")) && (!username.Equals("newdeveloper")))
         {
@@ -26,6 +31,12 @@ public class HueBridgeManager : MonoBehaviour {
 	
 	}
 
+    public void TryDiscoverLights ()
+    {
+        bridgeip = ipConfig.IpAddress;
+        StartCoroutine(DiscoverLights());
+    }
+
     public IEnumerator DiscoverLights()
     {
         //HttpWebRequest request = (HttpWebRequest)WebRequest.Create();
@@ -34,7 +45,7 @@ public class HueBridgeManager : MonoBehaviour {
         UnityWebRequest lights_json = UnityWebRequest.Get("http://" + bridgeip + "/api/" + username + "/lights");
         yield return lights_json.Send();
 
-        Debug.Log("http" + bridgeip + portNumber + "/api/" + username + "/lights");
+        Debug.Log("http://" + bridgeip + ":" + portNumber + "/api/" + username + "/lights");
 
         //System.IO.Stream stream = response.GetResponseStream();
         // System.IO.StreamReader streamReader = new System.IO.StreamReader(stream, System.Text.Encoding.UTF8);
